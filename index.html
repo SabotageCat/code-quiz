@@ -4,9 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./assets/styles/style.css" />
+    <title>Coding Quiz</title>
 </head>
+<!-- Body -->
 <body>
-    
+    <!-- Header -->
+    <header class="header" id="header">
+        <!-- HighScore -->
+        <div class="highscore" id="highscore">
+            <p><a href="#">View High Scores</a></p>
+        </div>
+        <!-- Timer -->
+        <div class="timer" id="timer">
+            <p>Time:</p>
+        </div>
+    </header>
+    <!-- Main Section -->
+    <div class="container">
+        <!-- Quiz Text -->
+        <div class="quiz-text" id="quiz-text">
+            <h1>Coding Quiz Challenge</h1>
+            <p>Complete the quiz within the alloted time. Each correct answer will award 10 points. Each inncorrect answer will deduct 10 seconds from the timer. You will have 100 seconds! Press the button below to begin</p>
+        </div>
+        <!-- Answer List -->
+        <div class="answer-choice-list" id="answer-choice-list">
+            <ul class="list" id="list">
+                <li>
+                    <button class="btn" id="begin-btn">Start Quiz</button>
+                </li>
+            </ul>
+        </div>
+        <!-- Answer Feedback -->
+        <div class="answer-feedback" id="answer-feedback">
+            <h2 id="correct" hidden="true">Correct!</h2>
+            <h2 id="incorrect" hidden="true">Incorrect!</h2>
+        </div>
+    </div>
 </body>
 </html>
