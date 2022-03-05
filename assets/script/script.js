@@ -17,6 +17,8 @@ var timer = function() {
 
 var startQuiz = function() {
     console.log("Start Quiz");
+    var question = document.getElementById("question");
+    question.remove();
 }
 
 var endQuiz = function() {
