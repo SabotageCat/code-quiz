@@ -1,6 +1,10 @@
 var questionsArr = {
 
 };
+var highscoreArr = {
+    initials : ['RDG'],
+    score : [100]
+};
 var seconds = 100;
 
 var timer = function() {
@@ -23,10 +27,10 @@ var startQuiz = function() {
 }
 
 var endQuiz = function() {
-    console.log("End Quiz")
+    console.log("End Quiz");
 }
 
-document.getElementById("incorrect-answer").addEventListener("click", subtractTime);
+// document.getElementById("incorrect-answer").addEventListener("click", subtractTime);
 
 document.getElementById("begin-btn").addEventListener("click", timer);
 
