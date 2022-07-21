@@ -5,10 +5,11 @@ var questionsArr = {
 var timer = function() {
     var seconds = 100;
 
-    var timer = setInterval(function() {
-        document.getElementById("timer").innerHTML='Time: 00:' + seconds; seconds--;
-        if (seconds <= 0) {
-            clearInterval(timer);
+    var countdown = setInterval(function() {
+        var timer = document.getElementById("timer").innerHTML=
+        timer = 'Time: ' + seconds; seconds--;
+        if (seconds <= -1) {
+            clearInterval(countdown);
             endQuiz();
         }
     }, 1000);
