@@ -1,34 +1,54 @@
 // questions array
 var questionsArr = [
     {
-        'question' : 'Test 1',
-        'answer' : 'Correct Answer',
-        'bAnswer' : 'Incorrect Answer',
-        'cAnswer' : 'Incorrect Answer',
-        'dAnswer' : 'Incorrect Answer'
+        question: 'Commonly used data types DO NOT include:',
+        answers: [
+            'Strings',
+            'Booleans',
+            'Alerts',
+            'Numbers'
+        ],
+        correctAns: 'Alerts'
     },
     {
-        'question' : 'Test 2',
-        'answer' : 'Correct Answer',
-        'bAnswer' : 'Incorrect Answer',
-        'cAnswer' : 'Incorrect Answer',
-        'dAnswer' : 'Incorrect Answer'
+        question: 'Arrays in Javascript can be used to store:',
+        answers: [
+            'Numbers and strings',
+            'Booleans',
+            'Other arrays',
+            'All of the above'
+        ],
+        correctAns: 'All of the above'
     },
     {
-        'question' : 'Test 3',
-        'answer' : 'Correct Answer',
-        'bAnswer' : 'Incorrect Answer',
-        'cAnswer' : 'Incorrect Answer',
-        'dAnswer' : 'Incorrect Answer'
-    }
+        question: 'The condition in an If/Else statement is enclosed with:',
+        answers: [
+            'curly brackets',
+            'quotes',
+            'parenthesis',
+            'square brackets'
+        ],
+        correctAns: 'parenthesis'
+    },
 ];
+var highscores = [];
+
+var quizDiv = document.getElementById('quiz-text');
+var question = document.getElementById('question');
+
+var ansChoiceListDiv = document.getElementById('answer-choice-list');
+var ansList = document.getElementById('list');
+
+var seconds = 100;
+var currentQuestion = 0;
 
 // timer for quiz
 var timer = function() {
-    var timer = setInterval(function() {
-        document.getElementById("timer").innerHTML='Time: 00:' + seconds; seconds--;
+
+    var countdownTimer = setInterval(function() {
+        document.getElementById('timer').innerHTML='Time: ' + seconds; seconds--;
         if (seconds < 0) {
-            clearInterval(timer);
+            clearInterval(countdownTimer);
             // if timer runs out, end quiz
             endQuiz();
         }
@@ -42,31 +62,65 @@ var subtractTime = function() {
 
 var startQuiz = function() {
     console.log("Start Quiz");
-    // remove text of question and replace it with new text from questionsArr
-    var question = document.getElementById("question");
-    question.innerText = questions();
-    // remove quiz instructions
-    var instructions = document.getElementById("instructions");
-    instructions.remove();
-    // remove start quiz button
-    var startBtn = document.getElementById("begin-btn");
-    startBtn.remove();
-    // insert questionsArr answers
 
-}
+    question.textContent = questionsArr[currentQuestion].question;
 
-var questions = function() {
-    for (var i = 0; i < questionsArr.length; i++); {
-        var createQuestions = questionsArr[i];
-        createQuestions = document.innerText(createQuestions[i].question);
+    if (currentQuestion === 0) {
+        document.getElementById('instructions').remove();
+        ansList.innerHTML = '';
     }
+
+    for (var i = 0; i < questionsArr[currentQuestion].answers.length ; i++) {
+
+        var ansBtn = document.createElement('li');
+        ansBtn.innerText = questionsArr[currentQuestion].answers[i];
+
+        if (ansBtn.innerText !== questionsArr[currentQuestion].correctAns) {
+            ansBtn.className = 'incorrect-answer btn';
+            ansBtn.addEventListener('click', subtractTime);
+            ansBtn.addEventListener('click', function() {
+                ansList.innerHTML = '';
+
+                if (currentQuestion > 2) {
+                    endQuiz();
+                } else {
+                    startQuiz();
+                }
+            });
+        } else {
+            ansBtn.className = 'btn';
+            ansBtn.addEventListener('click', function() {
+                ansList.innerHTML = '';
+
+                if (currentQuestion > 2) {
+                    endQuiz();
+                } else {
+                    startQuiz();
+                }
+            });
+        }
+
+        ansList.appendChild(ansBtn);
+    }
+
+    currentQuestion++;
 }
 
 var endQuiz = function() {
-    console.log("End Quiz")
-}
+    console.log("End Quiz");
 
-document.getElementById("incorrect-answer").addEventListener("click", subtractTime);
+    ansChoiceListDiv.innerHTML = '';
+    quizDiv.innerHTML = '';
+
+    var highscoreHeader = document.createElement('h1');
+    highscoreHeader.textContent = 'Highscores';
+
+    var highscoreUl = document.createElement('ul');
+    highscoreUl.className = 'list';
+
+
+    quizDiv.appendChild(highscoreHeader);
+}
 
 document.getElementById("begin-btn").addEventListener("click", timer);
 
