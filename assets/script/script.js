@@ -39,6 +39,10 @@ var question = document.getElementById('question');
 var ansChoiceListDiv = document.getElementById('answer-choice-list');
 var ansList = document.getElementById('list');
 
+var ansFeedbackDiv = document.getElementById('answer-feedback');
+var correctChoice = document.getElementById('correct');
+var incorrectChoice = document.getElementById('incorrect');
+
 var seconds = 100;
 var currentQuestion = 0;
 
@@ -80,7 +84,8 @@ var startQuiz = function() {
             ansBtn.addEventListener('click', subtractTime);
             ansBtn.addEventListener('click', function() {
                 ansList.innerHTML = '';
-
+                incorrectChoice.removeAttribute('hidden');
+                correctChoice.setAttribute('hidden', 'true');
                 if (currentQuestion > 2) {
                     endQuiz();
                 } else {
@@ -91,7 +96,8 @@ var startQuiz = function() {
             ansBtn.className = 'btn';
             ansBtn.addEventListener('click', function() {
                 ansList.innerHTML = '';
-
+                correctChoice.removeAttribute('hidden');
+                incorrectChoice.setAttribute('hidden', 'true');
                 if (currentQuestion > 2) {
                     endQuiz();
                 } else {
@@ -111,13 +117,14 @@ var endQuiz = function() {
 
     ansChoiceListDiv.innerHTML = '';
     quizDiv.innerHTML = '';
+    correctChoice.setAttribute('hidden', 'true');
+    incorrectChoice.setAttribute('hidden', 'true');
 
     var highscoreHeader = document.createElement('h1');
     highscoreHeader.textContent = 'Highscores';
 
     var highscoreUl = document.createElement('ul');
     highscoreUl.className = 'list';
-
 
     quizDiv.appendChild(highscoreHeader);
 }
