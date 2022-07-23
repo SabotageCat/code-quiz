@@ -44,24 +44,27 @@ var correctChoice = document.getElementById('correct');
 var incorrectChoice = document.getElementById('incorrect');
 
 var seconds = 100;
+var currentScore = 0;
 var currentQuestion = 0;
+var quizEnd = false;
 
 // timer for quiz
 var timer = function() {
 
     var countdownTimer = setInterval(function() {
-        document.getElementById('timer').innerHTML='Time: ' + seconds; seconds--;
-        if (seconds < 0) {
+        document.getElementById('timer').innerHTML='Time: ' + seconds;
+
+        if (seconds <= 0) {
             clearInterval(countdownTimer);
             // if timer runs out, end quiz
             endQuiz();
+        } else if (quizEnd) {
+            clearInterval(countdownTimer);
+        } else {
+            seconds--;
         }
     }, 1000);
     console.log("Start Timer");
-}
-
-var subtractTime = function() {
-    seconds = seconds - 10;
 }
 
 var startQuiz = function() {
@@ -81,11 +84,14 @@ var startQuiz = function() {
 
         if (ansBtn.innerText !== questionsArr[currentQuestion].correctAns) {
             ansBtn.className = 'incorrect-answer btn';
-            ansBtn.addEventListener('click', subtractTime);
             ansBtn.addEventListener('click', function() {
                 ansList.innerHTML = '';
                 incorrectChoice.removeAttribute('hidden');
                 correctChoice.setAttribute('hidden', 'true');
+
+                currentScore -= 5;
+                seconds -= 10;
+
                 if (currentQuestion > 2) {
                     endQuiz();
                 } else {
@@ -98,6 +104,9 @@ var startQuiz = function() {
                 ansList.innerHTML = '';
                 correctChoice.removeAttribute('hidden');
                 incorrectChoice.setAttribute('hidden', 'true');
+
+                currentScore += 10;
+
                 if (currentQuestion > 2) {
                     endQuiz();
                 } else {
@@ -115,18 +124,72 @@ var startQuiz = function() {
 var endQuiz = function() {
     console.log("End Quiz");
 
-    ansChoiceListDiv.innerHTML = '';
+    // clear screen
+    ansList.innerHTML = '';
     quizDiv.innerHTML = '';
     correctChoice.setAttribute('hidden', 'true');
     incorrectChoice.setAttribute('hidden', 'true');
 
-    var highscoreHeader = document.createElement('h1');
-    highscoreHeader.textContent = 'Highscores';
+    // display score
+    var score = document.createElement('h1');
+    currentScore = currentScore + seconds;
+    score.innerText = `Your Score: ${currentScore}!`;
+    quizDiv.appendChild(score);
 
-    var highscoreUl = document.createElement('ul');
-    highscoreUl.className = 'list';
+    // display restart button to refresh page
+    var restartButton = document.createElement('li');
+    restartButton.className = 'btn';
+    restartButton.innerText = 'Try Again';
+    restartButton.addEventListener('click', function() {
+        window.location.reload();
+    });
+    ansList.appendChild(restartButton);
 
-    quizDiv.appendChild(highscoreHeader);
+    // display add to highscore button if score high enough
+    var highscoreButton = document.createElement('li');
+    highscoreButton.className = 'btn';
+    highscoreButton.innerText = 'Add to HighScore';
+    highscoreButton.addEventListener('click', function() {
+        addToHighscores();
+    });
+    if (highscores.length < 3 || currentScore > highscores[2].score) {
+        ansList.appendChild(highscoreButton);
+    }
+
+    quizEnd = true;
+    // var highscoreHeader = document.createElement('h1');
+    // highscoreHeader.textContent = 'Highscores';
+
+    // var highscoreUl = document.createElement('ul');
+    // highscoreUl.className = 'list';
+
+    // quizDiv.appendChild(highscoreHeader);
+}
+
+var addToHighscores = function() {
+    ansList.innerHTML = '';
+    var userNameInput = document.createElement('form');
+    userNameInput.innerHTML = "<label for='name'>Enter your name!</label><br><input type='text' id='name' name='name'><br><input type='submit' id='highscore-submit' value='Submit Highscore'>";
+    quizDiv.appendChild(userNameInput);
+
+    document.getElementById('highscore-submit').addEventListener('click', function() {
+        event.preventDefault();
+
+        var highscore = {
+            name: document.getElementById('name').value,
+            score: currentScore
+        };
+
+        highscores.unshift(highscore);
+
+        // store in localStorage and and then display highscores
+        // localStorage.setItem('highscores', JSON.stringify(highscores));
+        showHighscores();
+    });
+}
+
+var showHighscores = function() {
+
 }
 
 document.getElementById("begin-btn").addEventListener("click", timer);
