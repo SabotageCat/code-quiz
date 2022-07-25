@@ -72,3 +72,8 @@
 .answer-feedback h2 {
     padding: 15px 0px;
 }
+/* Highscores */
+.highscores {
+    padding: 0px 10px;
+    font-size: 25px;
+}

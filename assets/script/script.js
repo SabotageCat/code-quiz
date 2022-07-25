@@ -32,6 +32,7 @@ var questionsArr = [
     },
 ];
 var highscores = [];
+var returnToQuizBtn = document.getElementById('view-highscores');
 
 var quizDiv = document.getElementById('quiz-text');
 var question = document.getElementById('question');
@@ -157,13 +158,6 @@ var endQuiz = function() {
     }
 
     quizEnd = true;
-    // var highscoreHeader = document.createElement('h1');
-    // highscoreHeader.textContent = 'Highscores';
-
-    // var highscoreUl = document.createElement('ul');
-    // highscoreUl.className = 'list';
-
-    // quizDiv.appendChild(highscoreHeader);
 }
 
 var addToHighscores = function() {
@@ -183,15 +177,56 @@ var addToHighscores = function() {
         highscores.unshift(highscore);
 
         // store in localStorage and and then display highscores
-        // localStorage.setItem('highscores', JSON.stringify(highscores));
+        localStorage.setItem('highscores', JSON.stringify(highscores));
         showHighscores();
     });
 }
 
 var showHighscores = function() {
+    quizDiv.innerHTML = '';
+    ansChoiceListDiv.innerHTML = '';
+    returnToQuizBtn.innerText = 'Return to Quiz';
 
+    var highscoreHeader = document.createElement('h1');
+    highscoreHeader.textContent = 'Highscores';
+
+    var highscoreUl = document.createElement('ul');
+    highscoreUl.className = 'list';
+
+    for (var i = 0; i < highscores.length; i++) {
+        var highscoreLi = document.createElement('li');
+        highscoreLi.className = 'highscores';
+        highscoreLi.innerText = `${highscores[i].name}: ${highscores[i].score}`
+
+        highscoreUl.appendChild(highscoreLi);
+    }
+
+    quizDiv.appendChild(highscoreHeader);
+    quizDiv.appendChild(highscoreUl);
 }
+
+var getHighscores = function() {
+    highscores = localStorage.getItem("highscores", highscores);
+
+    if (!highscores) {
+        return false;
+    }
+
+    highscores = JSON.parse(highscores);
+}
+
+getHighscores();
 
 document.getElementById("begin-btn").addEventListener("click", timer);
 
 document.getElementById("begin-btn").addEventListener("click", startQuiz);
+
+document.getElementById('view-highscores').addEventListener('click', function() {
+    event.preventDefault();
+    debugger;
+    if (returnToQuizBtn.innerText == 'Return to Quiz') {
+        window.location.reload();
+        return;
+    }
+    showHighscores();
+});
