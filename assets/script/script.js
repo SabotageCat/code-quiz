@@ -31,6 +31,7 @@ var questionsArr = [
         correctAns: 'parenthesis'
     },
 ];
+
 var highscores = [];
 var returnToQuizBtn = document.getElementById('view-highscores');
 
@@ -44,9 +45,13 @@ var ansFeedbackDiv = document.getElementById('answer-feedback');
 var correctChoice = document.getElementById('correct');
 var incorrectChoice = document.getElementById('incorrect');
 
+// seconds for timer
 var seconds = 100;
+// current score for highscores
 var currentScore = 0;
+// current question for quiz
 var currentQuestion = 0;
+// if quiz has ended
 var quizEnd = false;
 
 // timer for quiz
@@ -68,16 +73,18 @@ var timer = function() {
     console.log("Start Timer");
 }
 
+// start and play through quiz
 var startQuiz = function() {
-    console.log("Start Quiz");
-
+    // display current question from questionsArr
     question.textContent = questionsArr[currentQuestion].question;
 
+    // clear instructions if current questionArr is [0]
     if (currentQuestion === 0) {
         document.getElementById('instructions').remove();
         ansList.innerHTML = '';
     }
 
+    // for loop through questionsArr to create elements for each question
     for (var i = 0; i < questionsArr[currentQuestion].answers.length ; i++) {
 
         var ansBtn = document.createElement('li');
@@ -103,6 +110,7 @@ var startQuiz = function() {
             ansBtn.className = 'btn';
             ansBtn.addEventListener('click', function() {
                 ansList.innerHTML = '';
+
                 correctChoice.removeAttribute('hidden');
                 incorrectChoice.setAttribute('hidden', 'true');
 
@@ -119,9 +127,11 @@ var startQuiz = function() {
         ansList.appendChild(ansBtn);
     }
 
+    // increase currentQuestion count
     currentQuestion++;
 }
 
+// Terminate quiz and display score
 var endQuiz = function() {
     console.log("End Quiz");
 
@@ -160,12 +170,15 @@ var endQuiz = function() {
     quizEnd = true;
 }
 
+// add user's name and score to the scoreboard
 var addToHighscores = function() {
+    // clear webpage and create webform for user to input score
     ansList.innerHTML = '';
     var userNameInput = document.createElement('form');
     userNameInput.innerHTML = "<label for='name'>Enter your name!</label><br><input type='text' id='name' name='name'><br><input type='submit' id='highscore-submit' value='Submit Highscore'>";
     quizDiv.appendChild(userNameInput);
 
+    // when user clicks submit the name and score is stored in localStorage and highscores array
     document.getElementById('highscore-submit').addEventListener('click', function() {
         event.preventDefault();
 
@@ -178,21 +191,25 @@ var addToHighscores = function() {
 
         // store in localStorage and and then display highscores
         localStorage.setItem('highscores', JSON.stringify(highscores));
+
         showHighscores();
     });
 }
 
+// Display highscores from highscores array
 var showHighscores = function() {
+    // clear webpage
     quizDiv.innerHTML = '';
     ansChoiceListDiv.innerHTML = '';
     returnToQuizBtn.innerText = 'Return to Quiz';
-
+    
+    // create highscores elements
     var highscoreHeader = document.createElement('h1');
     highscoreHeader.textContent = 'Highscores';
-
     var highscoreUl = document.createElement('ul');
     highscoreUl.className = 'list';
 
+    // for loop through highscores array to create elements for each
     for (var i = 0; i < highscores.length; i++) {
         var highscoreLi = document.createElement('li');
         highscoreLi.className = 'highscores';
@@ -201,11 +218,13 @@ var showHighscores = function() {
         highscoreUl.appendChild(highscoreLi);
     }
 
+    // append created elements to the webpage for display
     quizDiv.appendChild(highscoreHeader);
     quizDiv.appendChild(highscoreUl);
 }
 
-var getHighscores = function() {
+    // retrieve highscores from localStorage for highscores array
+    var getHighscores = function() {
     highscores = localStorage.getItem("highscores", highscores);
 
     if (!highscores) {
@@ -215,12 +234,16 @@ var getHighscores = function() {
     highscores = JSON.parse(highscores);
 }
 
+// get highscores form localStorage on page load
 getHighscores();
 
+// when 'Start Quiz button clicked then start timer
 document.getElementById("begin-btn").addEventListener("click", timer);
 
+// when 'Start Quiz' button clicked the start quiz 
 document.getElementById("begin-btn").addEventListener("click", startQuiz);
 
+// if View Highscores or Return to Quiz button clicked then show highscores table or refresh page
 document.getElementById('view-highscores').addEventListener('click', function() {
     event.preventDefault();
     debugger;
