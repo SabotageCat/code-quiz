@@ -1,0 +1,22 @@
+table, th, td {
+    padding: 15px 25px;
+    margin: 15px;
+    border: 2px solid black;
+    text-align: center;
+    background-color: lightslategray;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+th {
+    background-color: blueviolet;
+    color: white;
+}
+
+td {
+
+    background-color: lightgreen;
+}
+
+.container {
+    margin-top: 50px;
+}

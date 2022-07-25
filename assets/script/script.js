@@ -44,6 +44,14 @@ var ansFeedbackDiv = document.getElementById('answer-feedback');
 var correctChoice = document.getElementById('correct');
 var incorrectChoice = document.getElementById('incorrect');
 
+<<<<<<< HEAD
+=======
+};
+var highscoreArr = {
+    initials : ['RDG'],
+    score : [100]
+};
+>>>>>>> 0d59bf80c318846f1999328b31728836aae6e1f7
 var seconds = 100;
 var currentScore = 0;
 var currentQuestion = 0;
@@ -124,6 +132,7 @@ var startQuiz = function() {
 
 var endQuiz = function() {
     console.log("End Quiz");
+<<<<<<< HEAD
 
     // clear screen
     ansList.innerHTML = '';
@@ -216,6 +225,11 @@ var getHighscores = function() {
 }
 
 getHighscores();
+=======
+}
+
+// document.getElementById("incorrect-answer").addEventListener("click", subtractTime);
+>>>>>>> 0d59bf80c318846f1999328b31728836aae6e1f7
 
 document.getElementById("begin-btn").addEventListener("click", timer);
 
