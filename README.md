@@ -3,8 +3,7 @@
 
   This project was created to use DOM manipulation features in javascript, and to test knowledgability of javascript.
   
-  
-    ![code-quiz](https://user-images.githubusercontent.com/95665563/180877665-87e988f9-4a40-4a51-bcf9-7e3a8ed58af4.JPG)
+  ![code-quiz](https://user-images.githubusercontent.com/95665563/180877665-87e988f9-4a40-4a51-bcf9-7e3a8ed58af4.JPG)
 
   ## Table of Contents
   1. [Installation](#installation)
